@@ -214,6 +214,53 @@ Why this choice:
 - `pgvector` enables semantic search over embeddings for accurate RAG retrieval
 - this keeps the system maintainable while avoiding over-complex enterprise-only patterns
 
+### Why We Chose PGVector (Small Cap / Startup Focus)
+
+We selected `PostgreSQL + pgvector` because this project targets **small-cap and startup workloads** where:
+
+- team size is small and platform complexity must stay low
+- budget discipline matters more than hyperscale throughput
+- one data platform for relational + vector data reduces ops overhead
+- SQL joins, transactions, backup, and auditability are needed from day one
+
+In short: pgvector gives enough semantic search power without introducing an extra distributed vector stack too early.
+
+### PGVector Capacity Envelope for This Architecture
+
+These are **practical operating ranges** for this project pattern (single primary Postgres on AWS, private ECS backend, HNSW/IVFFlat tuning as needed):
+
+| Stage | Approx vector rows (chunks) | Practical status |
+|---|---|---|
+| Early | up to `500k` | Very comfortable with pgvector for startup workloads |
+| Growth | `500k` to `5M` | Still a strong fit with proper indexing and DB sizing |
+| Upper stretch | `5M` to `10M` | Feasible, but needs stricter tuning (memory, vacuum, partitions, index management) |
+| Re-architecture zone | `>10M` | Re-evaluate architecture (sharding, read replicas, or specialized vector engine) |
+
+Query/load guidance for this showcase profile:
+
+- target latency budget: interactive dashboard queries with tuned `top-k`
+- sustained high concurrency (`>100 QPS` semantic queries) is usually the point to reassess architecture
+- aggressive multi-tenant isolation + very large corpora is another trigger to move beyond single-node pgvector
+
+### PGVector Technical Limits (Important)
+
+Official indexable type limits (from pgvector):
+
+- `vector`: up to `2,000` dimensions for ANN indexing
+- `halfvec`: up to `4,000` dimensions for ANN indexing
+- `bit`: up to `64,000` dimensions for ANN indexing
+- `sparsevec`: up to `1,000` non-zero elements for ANN indexing
+
+Storage-size rule of thumb:
+
+- `vector` storage is `4 * dimensions + 8` bytes per row
+- example: `1536` dims is about `6.1 KB` per vector row before additional table/index overhead
+
+This is why PGVector is excellent for our current stage, but not infinite:
+
+- as vectors and QPS grow, index memory and maintenance cost increase materially
+- beyond the upper stretch range, cost/performance tuning effort can exceed startup benefits
+
 ### How the Architecture Is Built
 
 The system is organized in five logical layers:
