@@ -243,15 +243,15 @@ To keep ECS tasks private and reduce unnecessary public internet dependencies fo
 
 Endpoint set:
 
-| Endpoint Type | AWS Service | Why It Exists in This Architecture |
-|---|---|---|
-| Interface | `ECR API` | ECS needs private access to image metadata and auth flow before pull |
-| Interface | `ECR DKR` | ECS needs private Docker registry access during image pull |
-| Interface | `CloudWatch Logs` | Backend and ECS runtime logs are shipped without public egress |
-| Interface | `Secrets Manager` | Runtime secrets are fetched privately at startup and during execution |
-| Interface | `STS` | Task role credential flows stay private |
-| Interface | `Bedrock Runtime` | Embeddings path (`EMBEDDING_MODE=bedrock`) stays private |
-| Gateway | `S3` | Image layers and S3 document traffic can traverse private VPC routing |
+| # | Endpoint Type | AWS Service | Why It Exists in This Architecture |
+|---|---|---|---|
+| 1 | Interface | `ECR API` | ECS needs private access to image metadata and auth flow before pull |
+| 2 | Interface | `ECR DKR` | ECS needs private Docker registry access during image pull |
+| 3 | Interface | `CloudWatch Logs` | Backend and ECS runtime logs are shipped without public egress |
+| 4 | Interface | `Secrets Manager` | Runtime secrets are fetched privately at startup and during execution |
+| 5 | Interface | `STS` | Task role credential flows stay private |
+| 6 | Interface | `Bedrock Runtime` | Embeddings path (`EMBEDDING_MODE=bedrock`) stays private |
+| 7 | Gateway | `S3` | Image layers and S3 document traffic can traverse private VPC routing |
 
 **Summary:**
 - **7 total endpoints = 6 Interface + 1 Gateway**
