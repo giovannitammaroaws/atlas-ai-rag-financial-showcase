@@ -4,6 +4,17 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&height=220&text=Atlas%20AI%20RAG%20Financial%20Showcase&fontAlign=50&fontSize=36&color=0:0f172a,100:1d4ed8&fontColor=ffffff" alt="Atlas AI RAG Financial Showcase banner" />
 </p>
 
+<p align="center">
+  <img alt="Status" src="https://img.shields.io/badge/Status-Beta-2563eb?style=for-the-badge" />
+  <img alt="AWS" src="https://img.shields.io/badge/AWS-Cloud%20Architecture-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" />
+  <img alt="RAG" src="https://img.shields.io/badge/RAG-Financial%20Intelligence-0f172a?style=for-the-badge" />
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img alt="React" src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react&logoColor=0f172a" />
+  <img alt="PostgreSQL + pgvector" src="https://img.shields.io/badge/PostgreSQL%20%2B%20pgvector-Semantic%20Search-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img alt="FinOps" src="https://img.shields.io/badge/FinOps-Cost%20Aware-16a34a?style=for-the-badge" />
+  <img alt="Security" src="https://img.shields.io/badge/Security-Private%20by%20Design-1e293b?style=for-the-badge" />
+</p>
+
 This tutorial walks through a practical, production-oriented financial RAG system.  
 The focus is learning by building: document ingestion, chunking, embeddings, retrieval, LLM answering, guardrails, and cost control.
 
