@@ -49,6 +49,7 @@ Engineers and builders who want a real-world example of:
 - [Cost Trade-offs](#cost-trade-offs)
 - [Multi-Layer Protection](#multi-layer-protection-cost-and-reliability)
 - [Selected Architecture](#selected-architecture)
+- [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
 - [ADR-002: API Gateway + VPC Link](#adr-002-api-gateway--vpc-link)
 - [Data Sources](#data-sources)
 
@@ -260,6 +261,91 @@ This is why PGVector is excellent for our current stage, but not infinite:
 
 - as vectors and QPS grow, index memory and maintenance cost increase materially
 - beyond the upper stretch range, cost/performance tuning effort can exceed startup benefits
+
+### SQL Diagnostics (Chunks, Embeddings, and Token Estimates)
+
+Use these SQL checks to inspect real corpus scale and keep capacity decisions data-driven.
+
+Key interpretation:
+
+- in this ingestion flow, **1 chunk = 1 embedding row**
+- if chunks are `0`, embeddings are also `0`
+- `query_runs.total_tokens` is **LLM token usage** (`input + output`), not embedding count
+
+#### 1. Corpus size: chunks vs embeddings
+
+```sql
+SELECT
+  COUNT(*) AS chunks_total,
+  COUNT(*) FILTER (WHERE embedding IS NOT NULL) AS embeddings_total
+FROM chunks;
+```
+
+#### 2. Per-document chunk volume and estimated tokens/chunk
+
+```sql
+SELECT
+  d.id,
+  d.filename,
+  COUNT(c.id) AS chunk_count,
+  ROUND(AVG(length(c.content))::numeric, 0) AS avg_chars_per_chunk,
+  ROUND((AVG(length(c.content)) / 4.0)::numeric, 0) AS est_avg_tokens_per_chunk
+FROM documents d
+LEFT JOIN chunks c ON c.document_id = d.id
+GROUP BY d.id, d.filename
+ORDER BY chunk_count DESC, d.id DESC;
+```
+
+#### 3. Estimated corpus token mass (embedding-input estimate)
+
+```sql
+SELECT
+  COUNT(*) AS chunks_total,
+  COALESCE(SUM(length(content)), 0) AS total_chars,
+  ROUND((COALESCE(SUM(length(content)), 0) / 4.0)::numeric, 0) AS est_total_tokens
+FROM chunks;
+```
+
+#### 4. Approximate raw vector payload size in memory/storage terms
+
+```sql
+SELECT
+  COUNT(*) AS embeddings_total,
+  MIN(vector_dims(embedding)) AS dims_min,
+  MAX(vector_dims(embedding)) AS dims_max,
+  (4 * MIN(vector_dims(embedding)) + 8) AS approx_bytes_per_embedding,
+  ROUND(
+    (COUNT(*) * (4 * MIN(vector_dims(embedding)) + 8) / 1024.0 / 1024.0)::numeric,
+    2
+  ) AS approx_vector_payload_mb
+FROM chunks;
+```
+
+#### 5. Real PostgreSQL table/index footprint for chunks
+
+```sql
+SELECT
+  pg_size_pretty(pg_relation_size('chunks')) AS chunks_table_size,
+  pg_size_pretty(pg_indexes_size('chunks')) AS chunks_indexes_size,
+  pg_size_pretty(pg_total_relation_size('chunks')) AS chunks_total_size;
+```
+
+#### 6. LLM token usage from query runs (not embeddings)
+
+```sql
+SELECT
+  COUNT(*) AS query_runs,
+  COALESCE(SUM(input_tokens), 0) AS input_tokens_total,
+  COALESCE(SUM(output_tokens), 0) AS output_tokens_total,
+  COALESCE(SUM(estimated_tokens), 0) AS total_tokens,
+  COALESCE(ROUND(AVG(estimated_tokens)::numeric, 2), 0) AS avg_tokens_per_query
+FROM query_runs;
+```
+
+Token note:
+
+- `chars / 4` is a practical estimate, not exact billing tokenization
+- for precise billing/forecasting, use provider tokenizer outputs and live usage logs
 
 ### How the Architecture Is Built
 
