@@ -37,6 +37,7 @@ Engineers and builders who want a real-world example of:
 
 ## Navigation
 
+- [Manual View](#manual-view)
 - [Query Flow](#query-flow)
 - [Query Cache and Cost Saving](#query-cache-and-cost-saving)
 - [Documents](#documents)
@@ -50,6 +51,17 @@ Engineers and builders who want a real-world example of:
 - [Selected Architecture](#selected-architecture)
 - [ADR-002: API Gateway + VPC Link](#adr-002-api-gateway--vpc-link)
 - [Data Sources](#data-sources)
+
+## Manual View
+
+This is the complete operator manual screen of the showcase, with all key sections available from one interface.
+
+- documents and ingestion workflows
+- query execution and evidence display
+- earnings signals, cost usage, and audit visibility
+- architecture and trade-off context for technical decisions
+
+![Manual](docs/images/manual.png)
 
 ## Query Flow
 
@@ -201,6 +213,34 @@ Why this choice:
 - `PostgreSQL` stores structured operational data (documents, metadata, audit, cache, usage)
 - `pgvector` enables semantic search over embeddings for accurate RAG retrieval
 - this keeps the system maintainable while avoiding over-complex enterprise-only patterns
+
+### How the Architecture Is Built
+
+The system is organized in five logical layers:
+
+1. **Presentation layer**
+   - React frontend is served through `S3 + CloudFront`.
+   - Users interact with dashboard pages for query, ingestion, earnings, cost, and audit.
+2. **Ingress layer**
+   - Traffic enters through `ALB`, which is the single entry point for backend APIs in this phase.
+3. **Application layer**
+   - `FastAPI` runs on `ECS Fargate` and orchestrates ingestion, retrieval, provider routing, and response composition.
+4. **Data layer**
+   - `PostgreSQL` stores documents, chunks, metadata, usage, and audit records.
+   - `pgvector` stores embeddings for semantic similarity search.
+   - `S3` stores source filing documents (PDF/text) used as ground truth.
+5. **Control and observability layer**
+   - `Secrets Manager` handles runtime secrets.
+   - `CloudWatch Logs` captures operational telemetry.
+   - `STS` and VPC endpoints keep runtime access controlled in private networking patterns.
+
+### End-to-End Query Path
+
+1. user sends a financial question from the frontend
+2. request reaches FastAPI backend through ALB
+3. backend retrieves top-k relevant chunks from PostgreSQL + pgvector
+4. backend calls the selected model provider with grounded context
+5. response, evidence, and usage metadata are returned to UI and logged for audit/cost analysis
 
 ### Why `top-k = 10` and not `3`
 
