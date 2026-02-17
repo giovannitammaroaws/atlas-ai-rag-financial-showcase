@@ -256,24 +256,32 @@ Endpoint set:
 **Summary:**
 - **7 total endpoints = 6 Interface + 1 Gateway**
 - this is the minimum practical baseline for the current private ECS + RAG runtime pattern.
+- **NAT Gateway is intentionally not used** in this deployment to avoid fixed monthly NAT cost.
 
-### IPv6 Egress for LLM API Calls (OpenAI vs Anthropic)
+### IPv6 Egress Decision in This Deployment
 
 As of **February 17, 2026**, practical DNS checks show:
 
 - `api.anthropic.com` publishes an `AAAA` record (IPv6 reachable)
 - `api.openai.com` currently resolves to `A` records only (no `AAAA` record observed)
 
-What this means for network design:
+For this architecture, the decision is explicit:
 
-- an **Egress-Only Internet Gateway** supports outbound **IPv6 only**
-- Anthropic LLM calls can run through IPv6 egress from private subnets
-- OpenAI LLM calls require an **IPv4 egress path** (for example NAT Gateway, NAT instance, or controlled IPv4 proxy)
+1. We keep backend Python on `ECS Fargate` in **private subnets**.
+2. We avoid `NAT Gateway` cost in this baseline.
+3. We use `Bedrock Runtime` (private Interface Endpoint) for embeddings.
+4. We use Anthropic API key for external LLM queries, routed through IPv6 egress (`Egress-Only IGW`).
+5. We do **not** use OpenAI for live query execution in this deployment.
 
-Operational implication:
+Why OpenAI is not used here:
 
-- if your private ECS design is IPv6-only with no IPv4 NAT path, OpenAI LLM queries can fail at network egress
-- if you need OpenAI + Anthropic together, keep dual-stack egress or add explicit IPv4 egress for OpenAI traffic
+- `api.openai.com` requires an IPv4 egress path in practice.
+- With private ECS and no NAT/IPv4 proxy, OpenAI requests can fail at network egress.
+
+Important boundary clarification:
+
+- `PostgreSQL + pgvector` is a private data layer and does not perform outbound internet calls.
+- Outbound LLM/API traffic is made by the Python backend running on ECS Fargate.
 
 ### End-to-End Query Path
 
@@ -304,11 +312,10 @@ This is the practical runtime sequence for external service calls from backend s
 | 2 | ECS task startup | S3 (Gateway Endpoint) | Download image layers required for container boot | Private |
 | 3 | ECS/Fargate runtime | Task ephemeral disk | Materialize layers and start Python container | Internal |
 | 4 | Python backend | Secrets Manager (Interface Endpoint) | Load runtime secrets and credentials | Private |
-| 5a | Python backend | Anthropic API (`api.anthropic.com`) | Run live LLM inference over IPv6-capable endpoint | Controlled public egress (IPv6 path possible) |
-| 5b | Python backend | OpenAI API (`api.openai.com`) | Run live LLM inference via IPv4 egress path | Controlled public egress (IPv4 NAT/proxy path) |
+| 5 | Python backend | Anthropic API (`api.anthropic.com`) | Run live LLM inference for user queries | Controlled public egress (IPv6 path) |
 | 6 | ECS + Python backend | CloudWatch Logs (Interface Endpoint) | Persist operational logs and diagnostics | Private |
 | 7 | ECS + Python backend | STS (Interface Endpoint) | Obtain temporary AWS credentials | Private |
-| 8 | Python backend | Bedrock Runtime (Interface Endpoint) | Optional embedding generation path (`EMBEDDING_MODE=bedrock`) | Private |
+| 8 | Python backend | Bedrock Runtime (Interface Endpoint) | Generate embeddings through private AWS path (`EMBEDDING_MODE=bedrock`) | Private |
 
 **Data boundary recap:**
 - **S3 stores source filing documents (PDFs).**
