@@ -38,20 +38,35 @@ Engineers and builders who want a real-world example of:
 ## Navigation
 
 - [Manual View](#manual-view)
-- [Query Flow](#query-flow)
-- [Query Cache and Cost Saving](#query-cache-and-cost-saving)
-- [Documents](#documents)
-- [Data Ingestion](#data-ingestion)
-- [RAG Query Execution](#rag-query-execution)
-- [Earnings Signals](#earnings-signals)
-- [Cost and Usage](#cost-and-usage)
-- [Audit](#audit)
-- [Cost Trade-offs](#cost-trade-offs)
-- [Multi-Layer Protection](#multi-layer-protection-cost-and-reliability)
-- [Selected Architecture](#selected-architecture)
-- [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
-- [ADR-002: API Gateway + VPC Link](#adr-002-api-gateway--vpc-link)
-- [Data Sources](#data-sources)
+
+<details>
+  <summary><strong>User Journey</strong></summary>
+
+  - [Query Flow](#query-flow)
+  - [Query Cache and Cost Saving](#query-cache-and-cost-saving)
+  - [Documents](#documents)
+  - [Data Ingestion](#data-ingestion)
+  - [RAG Query Execution](#rag-query-execution)
+  - [Earnings Signals](#earnings-signals)
+  - [Cost and Usage](#cost-and-usage)
+  - [Audit](#audit)
+  - [Cost Trade-offs](#cost-trade-offs)
+  - [Multi-Layer Protection](#multi-layer-protection-cost-and-reliability)
+</details>
+
+<details>
+  <summary><strong>Architecture and Data</strong></summary>
+
+  - [Selected Architecture](#selected-architecture)
+  - [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
+</details>
+
+<details>
+  <summary><strong>Decisions and References</strong></summary>
+
+  - [ADR-002: API Gateway + VPC Link](#adr-002-api-gateway--vpc-link)
+  - [Data Sources](#data-sources)
+</details>
 
 ## Manual View
 
