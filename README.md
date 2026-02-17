@@ -1,10 +1,6 @@
 # Atlas AI RAG Financial Showcase
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&text=Atlas%20AI%20RAG%20Financial%20Showcase&fontAlign=50&fontSize=36&color=0:0f172a,100:1d4ed8&fontColor=ffffff" alt="Atlas AI RAG Financial Showcase banner" />
-</p>
-
-<p align="center">
   <img alt="Status" src="https://img.shields.io/badge/Status-Beta-2563eb?style=for-the-badge" />
   <img alt="AWS" src="https://img.shields.io/badge/AWS-Cloud%20Architecture-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" />
   <img alt="RAG" src="https://img.shields.io/badge/RAG-Financial%20Intelligence-0f172a?style=for-the-badge" />
