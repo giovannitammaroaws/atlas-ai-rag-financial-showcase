@@ -35,7 +35,7 @@ Engineers and builders who want a real-world example of:
 
 - [Manual View](#manual-view)
 
-<details>
+<details open>
   <summary><strong>User Journey</strong></summary>
 
   - [Query Flow](#query-flow)
@@ -50,14 +50,14 @@ Engineers and builders who want a real-world example of:
   - [Multi-Layer Protection](#multi-layer-protection-cost-and-reliability)
 </details>
 
-<details>
+<details open>
   <summary><strong>Architecture and Data</strong></summary>
 
   - [Selected Architecture](#selected-architecture)
   - [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
 </details>
 
-<details>
+<details open>
   <summary><strong>Decisions and References</strong></summary>
 
   - [ADR-002: API Gateway + VPC Link](#adr-002-api-gateway--vpc-link)
