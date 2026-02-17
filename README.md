@@ -234,6 +234,47 @@ The system is organized in five logical layers:
    - `CloudWatch Logs` captures operational telemetry.
    - `STS` and VPC endpoints keep runtime access controlled in private networking patterns.
 
+### VPC Endpoint Strategy (7 total: 6 Interface + 1 Gateway)
+
+To keep ECS tasks private and reduce unnecessary public internet dependencies for AWS service traffic, this architecture uses:
+
+- **6 Interface Endpoints**
+- **1 Gateway Endpoint**
+
+Endpoint set:
+
+| Endpoint Type | AWS Service | Why It Exists in This Architecture |
+|---|---|---|
+| Interface | `ECR API` | ECS needs private access to image metadata and auth flow before pull |
+| Interface | `ECR DKR` | ECS needs private Docker registry access during image pull |
+| Interface | `CloudWatch Logs` | Backend and ECS runtime logs are shipped without public egress |
+| Interface | `Secrets Manager` | Runtime secrets are fetched privately at startup and during execution |
+| Interface | `STS` | Task role credential flows stay private |
+| Interface | `Bedrock Runtime` | Embeddings path (`EMBEDDING_MODE=bedrock`) stays private |
+| Gateway | `S3` | Image layers and S3 document traffic can traverse private VPC routing |
+
+**Summary:**
+- **7 total endpoints = 6 Interface + 1 Gateway**
+- this is the minimum practical baseline for the current private ECS + RAG runtime pattern.
+
+### IPv6 Egress for LLM API Calls (OpenAI vs Anthropic)
+
+As of **February 17, 2026**, practical DNS checks show:
+
+- `api.anthropic.com` publishes an `AAAA` record (IPv6 reachable)
+- `api.openai.com` currently resolves to `A` records only (no `AAAA` record observed)
+
+What this means for network design:
+
+- an **Egress-Only Internet Gateway** supports outbound **IPv6 only**
+- Anthropic LLM calls can run through IPv6 egress from private subnets
+- OpenAI LLM calls require an **IPv4 egress path** (for example NAT Gateway, NAT instance, or controlled IPv4 proxy)
+
+Operational implication:
+
+- if your private ECS design is IPv6-only with no IPv4 NAT path, OpenAI LLM queries can fail at network egress
+- if you need OpenAI + Anthropic together, keep dual-stack egress or add explicit IPv4 egress for OpenAI traffic
+
 ### End-to-End Query Path
 
 1. user sends a financial question from the frontend
@@ -263,7 +304,8 @@ This is the practical runtime sequence for external service calls from backend s
 | 2 | ECS task startup | S3 (Gateway Endpoint) | Download image layers required for container boot | Private |
 | 3 | ECS/Fargate runtime | Task ephemeral disk | Materialize layers and start Python container | Internal |
 | 4 | Python backend | Secrets Manager (Interface Endpoint) | Load runtime secrets and credentials | Private |
-| 5 | Python backend | Anthropic API (`api.anthropic.com`) | Run live LLM inference for query answering | Controlled public egress |
+| 5a | Python backend | Anthropic API (`api.anthropic.com`) | Run live LLM inference over IPv6-capable endpoint | Controlled public egress (IPv6 path possible) |
+| 5b | Python backend | OpenAI API (`api.openai.com`) | Run live LLM inference via IPv4 egress path | Controlled public egress (IPv4 NAT/proxy path) |
 | 6 | ECS + Python backend | CloudWatch Logs (Interface Endpoint) | Persist operational logs and diagnostics | Private |
 | 7 | ECS + Python backend | STS (Interface Endpoint) | Obtain temporary AWS credentials | Private |
 | 8 | Python backend | Bedrock Runtime (Interface Endpoint) | Optional embedding generation path (`EMBEDDING_MODE=bedrock`) | Private |
