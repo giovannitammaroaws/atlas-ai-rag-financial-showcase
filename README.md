@@ -7,6 +7,7 @@
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
   <img alt="React" src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react&logoColor=0f172a" />
   <img alt="PostgreSQL + pgvector" src="https://img.shields.io/badge/PostgreSQL%20%2B%20pgvector-Semantic%20Search-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img alt="Terraform" src="https://img.shields.io/badge/Terraform-IaC-623CE4?style=for-the-badge&logo=terraform&logoColor=white" />
   <img alt="FinOps" src="https://img.shields.io/badge/FinOps-Cost%20Aware-16a34a?style=for-the-badge" />
   <img alt="Security" src="https://img.shields.io/badge/Security-Private%20by%20Design-1e293b?style=for-the-badge" />
 </p>
@@ -55,6 +56,7 @@ Engineers and builders who want a real-world example of:
 
   - [Selected Architecture](#selected-architecture)
   - [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
+  - [Terraform Rollout (Final Delivery)](#terraform-rollout-final-delivery)
 </details>
 
 <details open>
@@ -480,6 +482,23 @@ This is the practical runtime sequence for external service calls from backend s
 - **PostgreSQL + pgvector stores extracted text, chunks, embeddings, and retrieval metadata.**
 
 ![Selected Architecture - PostgreSQL and pgvector](docs/images/postgre_pgvector.png)
+
+### Terraform Rollout (Final Delivery)
+
+![Terraform IaC](https://img.shields.io/badge/Terraform-IaC-623CE4?logo=terraform&logoColor=white)
+![Deployment As Code](https://img.shields.io/badge/Deployment-As%20Code-111827?logo=terraform&logoColor=white)
+
+Final delivery is **Terraform-driven**, not manual click-by-click provisioning.
+
+What this means operationally:
+1. networking, compute, storage, and data services are provisioned with Terraform templates
+2. environment changes are applied through versioned IaC updates
+3. backend/frontend rollout happens on top of that Terraform baseline
+4. the final production path is repeatable because infrastructure state is codified
+
+Practical conclusion:
+- at the end of the project flow, we push infrastructure changes through Terraform as the canonical deployment path
+- this avoids drift and keeps architecture, cost controls, and security settings consistent across environments
 
 ## ADR-002: API Gateway + VPC Link
 
