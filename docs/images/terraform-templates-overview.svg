@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="980" viewBox="0 0 1800 980" role="img" aria-labelledby="title desc">
+  <title id="title">Terraform Templates Overview</title>
+  <desc id="desc">Readable overview of Terraform modules and key infrastructure components.</desc>
+
+  <defs>
+    <style>
+      .bg { fill: #0b1220; }
+      .title { fill: #e2e8f0; font: 700 46px "Segoe UI", Arial, sans-serif; }
+      .subtitle { fill: #94a3b8; font: 500 24px "Segoe UI", Arial, sans-serif; }
+      .module { fill: #111827; stroke: #6366f1; stroke-width: 3; rx: 18; }
+      .module-title { fill: #c7d2fe; font: 700 28px "Segoe UI", Arial, sans-serif; }
+      .module-text { fill: #d1d5db; font: 500 22px "Segoe UI", Arial, sans-serif; }
+      .edge { stroke: #94a3b8; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .note { fill: #1f2937; stroke: #f59e0b; stroke-width: 2.5; rx: 12; }
+      .note-text { fill: #fde68a; font: 700 22px "Segoe UI", Arial, sans-serif; }
+    </style>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1800" height="980" />
+
+  <text class="title" x="64" y="86">Terraform Templates Overview</text>
+  <text class="subtitle" x="64" y="126">Clear module split for deployment: network + app + data + frontend</text>
+
+  <!-- Root -->
+  <rect class="module" x="700" y="170" width="400" height="130" />
+  <text class="module-title" x="735" y="230">Root Module</text>
+  <text class="module-text" x="735" y="268">main.tf / variables.tf / outputs.tf</text>
+
+  <!-- Network -->
+  <rect class="module" x="70" y="390" width="380" height="320" />
+  <text class="module-title" x="102" y="446">modules/network</text>
+  <text class="module-text" x="102" y="494">VPC + Subnets + Routing</text>
+  <text class="module-text" x="102" y="530">Egress-Only IGW (IPv6)</text>
+  <text class="module-text" x="102" y="566">No NAT Gateway baseline</text>
+  <text class="module-text" x="102" y="602">VPC Endpoints (6 IF + 1 GW)</text>
+
+  <!-- App -->
+  <rect class="module" x="500" y="390" width="380" height="320" />
+  <text class="module-title" x="532" y="446">modules/app</text>
+  <text class="module-text" x="532" y="494">ECS Fargate Service</text>
+  <text class="module-text" x="532" y="530">ALB API Ingress</text>
+  <text class="module-text" x="532" y="566">Runtime env + IAM wiring</text>
+  <text class="module-text" x="532" y="602">Private subnet execution</text>
+
+  <!-- Data -->
+  <rect class="module" x="930" y="390" width="380" height="320" />
+  <text class="module-title" x="962" y="446">modules/data</text>
+  <text class="module-text" x="962" y="494">RDS PostgreSQL + pgvector</text>
+  <text class="module-text" x="962" y="530">S3 documents bucket</text>
+  <text class="module-text" x="962" y="566">Encrypted storage baseline</text>
+  <text class="module-text" x="962" y="602">Internal data boundary</text>
+
+  <!-- Frontend -->
+  <rect class="module" x="1360" y="390" width="380" height="320" />
+  <text class="module-title" x="1392" y="446">modules/frontend</text>
+  <text class="module-text" x="1392" y="494">CloudFront distribution</text>
+  <text class="module-text" x="1392" y="530">S3 frontend bucket</text>
+  <text class="module-text" x="1392" y="566">Static delivery path</text>
+  <text class="module-text" x="1392" y="602">Global edge caching</text>
+
+  <!-- Arrows from root -->
+  <path class="edge" d="M 830 300 C 700 345, 420 350, 260 390" />
+  <path class="edge" d="M 880 300 C 850 345, 760 350, 690 390" />
+  <path class="edge" d="M 920 300 C 980 345, 1060 350, 1120 390" />
+  <path class="edge" d="M 970 300 C 1130 345, 1400 350, 1550 390" />
+
+  <!-- Cross-module relationships -->
+  <path class="edge" d="M 450 600 C 500 600, 500 600, 500 600" />
+  <path class="edge" d="M 880 640 C 910 640, 930 640, 930 640" />
+  <path class="edge" d="M 1310 610 C 1360 610, 1360 610, 1360 610" />
+  <path class="edge" d="M 880 560 C 980 520, 1030 520, 1360 520" />
+
+  <!-- Notes -->
+  <rect class="note" x="90" y="770" width="760" height="135" />
+  <text class="note-text" x="120" y="820">Cost/Security Key:</text>
+  <text class="module-text" x="120" y="858">IPv6 + Egress-Only IGW keeps outbound private-subnet pattern without NAT hourly cost.</text>
+
+  <rect class="note" x="930" y="770" width="770" height="135" />
+  <text class="note-text" x="960" y="820">Runtime Key:</text>
+  <text class="module-text" x="960" y="858">LLM query path: ECS -&gt; Anthropic over IPv6. Embeddings path: ECS -&gt; Bedrock Runtime endpoint.</text>
+</svg>
