@@ -32,6 +32,25 @@ Engineers and builders who want a real-world example of:
 - Focus: RAG on financial filings (10-Q style documents)
 - Objective: grounded answers with traceability, low hallucination risk, and cost visibility
 
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| UI | ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=0f172a) `React` | Interactive operator dashboard |
+| Frontend Build | ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) `Vite` | Fast local dev server and production builds |
+| Backend API | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) `FastAPI` | RAG orchestration, retrieval, and query APIs |
+| Relational + Vector Data | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white) `PostgreSQL` + ![pgvector](https://img.shields.io/badge/pgvector-Vector%20Extension-334155) | Store documents, chunks, metadata, and embeddings |
+| Embeddings | ![Amazon Bedrock](https://img.shields.io/badge/Amazon%20Bedrock-FF9900?logo=amazonaws&logoColor=white) `Bedrock Runtime` | Private embedding generation via VPC endpoint |
+| LLM Inference | ![Anthropic](https://img.shields.io/badge/Anthropic-LLM-111827) `Anthropic API` | Answer generation for user queries |
+| Object Storage | ![Amazon S3](https://img.shields.io/badge/Amazon%20S3-FF9900?logo=amazonaws&logoColor=white) `S3` | Source filing/document storage |
+| Compute | ![Amazon ECS](https://img.shields.io/badge/ECS%20Fargate-FF9900?logo=amazonaws&logoColor=white) `ECS Fargate` | Private backend runtime in VPC |
+| Ingress | ![ALB](https://img.shields.io/badge/Application%20Load%20Balancer-FF9900?logo=amazonaws&logoColor=white) `ALB` | Controlled API entry point |
+| Static Delivery | ![CloudFront](https://img.shields.io/badge/CloudFront-FF9900?logo=amazonaws&logoColor=white) `CloudFront` + ![S3](https://img.shields.io/badge/S3%20Frontend-FF9900?logo=amazonaws&logoColor=white) | Global frontend delivery and caching |
+| Secrets | ![Secrets Manager](https://img.shields.io/badge/Secrets%20Manager-FF9900?logo=amazonaws&logoColor=white) `Secrets Manager` | Runtime secret management |
+| Observability | ![CloudWatch](https://img.shields.io/badge/CloudWatch%20Logs-FF9900?logo=amazonaws&logoColor=white) `CloudWatch Logs` | Operational logging and diagnostics |
+| Infrastructure as Code | ![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white) `Terraform` | Repeatable infrastructure provisioning |
+| Networking | ![IPv6](https://img.shields.io/badge/IPv6-Egress--Only%20IGW-2563eb) `Egress-Only IGW` + ![VPC Endpoints](https://img.shields.io/badge/VPC%20Endpoints-6%20Interface%20%2B%201%20Gateway-1e293b) | Private-first traffic model without NAT Gateway |
+
 ## Navigation
 
 - [Manual View](#manual-view)
@@ -54,6 +73,7 @@ Engineers and builders who want a real-world example of:
 <details open>
   <summary><strong>Architecture and Data</strong></summary>
 
+  - [Tech Stack](#tech-stack)
   - [Selected Architecture](#selected-architecture)
   - [SQL Diagnostics (Chunks / Embeddings / Tokens)](#sql-diagnostics-chunks-embeddings-and-token-estimates)
   - [Terraform Rollout (Final Delivery)](#terraform-rollout-final-delivery)
