@@ -499,6 +499,53 @@ Terraform template highlights (most relevant):
 - `bedrock-runtime` Interface Endpoint for private embeddings path
 - `S3` Gateway Endpoint for private S3 routing
 
+Terraform high-level view (Mermaid):
+
+```mermaid
+flowchart TB
+  U[User Browser]
+
+  subgraph EDGE[Edge Layer]
+    CF[CloudFront]
+    S3FE[S3 Frontend Bucket]
+  end
+
+  subgraph VPC[VPC - IPv6 enabled - Terraform managed]
+    ALB[ALB - public subnets - 2 AZ]
+    ECS[ECS Fargate - private subnets]
+    RDS[RDS PostgreSQL + pgvector]
+    S3DOC[S3 Documents]
+    EIGW[Egress-Only Internet Gateway]
+    NONAT[No NAT Gateway]
+
+    subgraph EP[VPC Endpoints - 7 total]
+      S3GW[S3 Gateway Endpoint]
+      ECRAPI[ECR API Interface]
+      ECRDKR[ECR DKR Interface]
+      LOGS[CloudWatch Logs Interface]
+      SM[Secrets Manager Interface]
+      STS[STS Interface]
+      BR[Bedrock Runtime Interface]
+    end
+  end
+
+  ANTH[Anthropic API - IPv6]
+
+  U --> CF --> S3FE
+  U --> ALB --> ECS
+  ECS --> RDS
+  ECS --> S3DOC
+  ECS --> S3GW
+  ECS --> ECRAPI
+  ECS --> ECRDKR
+  ECS --> LOGS
+  ECS --> SM
+  ECS --> STS
+  ECS --> BR
+  ECS --> EIGW --> ANTH
+  NONAT -. cost optimization .-> ECS
+```
+
 What this means operationally:
 1. networking, compute, storage, and data services are provisioned with Terraform templates
 2. environment changes are applied through versioned IaC updates
