@@ -94,7 +94,7 @@ Traceability example (TCL):
 1. user asks for **Total Current Liabilities (TCL)** after ingestion.
 2. system returns the value **162,367** (in millions).
 3. evidence snippet shown in the UI: [Total Current Liabilities Extract](docs/images/total_current_liabilities.png).
-4. source filing PDF (single HTTP link): [Apple FY26 Q1 Consolidated Financial Statements](https://www.apple.com/newsroom/pdfs/fy2026-q1/FY26_Q1_Consolidated_Financial_Statements.pdf).
+4. source filing PDF (repo file): [aapl-20251227.pdf](docs/10K_PDF/aapl-20251227.pdf).
 5. the value is read from the balance sheet line `Total current liabilities`.
 
 ### PDF Extract Example
