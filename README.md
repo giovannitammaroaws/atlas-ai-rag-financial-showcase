@@ -90,6 +90,13 @@ Practical note:
 - `top_k` default is set to `10` in backend settings, and query runs track retrieval depth.
 - at the top of the dashboard, you can also see query cost signals (token usage and estimated cost).
 
+Traceability example (TCL):
+1. user asks for **Total Current Liabilities (TCL)** after ingestion.
+2. system returns the value **162,367** (in millions).
+3. evidence snippet shown in the UI: [Total Current Liabilities Extract](docs/images/total_current_liabilities.png).
+4. source filing PDF (single HTTP link): [Apple FY26 Q1 Consolidated Financial Statements](https://www.apple.com/newsroom/pdfs/fy2026-q1/FY26_Q1_Consolidated_Financial_Statements.pdf).
+5. the value is read from the balance sheet line `Total current liabilities`.
+
 ![Query Flow](docs/images/query.png)
 
 ## Query Cache and Cost Saving
