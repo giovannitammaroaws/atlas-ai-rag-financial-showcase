@@ -104,6 +104,11 @@ It demonstrates that the query answer can be traced to original document evidenc
 
 ![Total Current Liabilities Extract](docs/images/total_current_liabilities.png)
 
+Cache-hit cost behavior (visible in the top metrics/cards):
+- if the same normalized query is served from cache (`served_from_cache=true`), no new LLM call is executed
+- the incremental query cost is **0** for that run (`actual_cost_usd = 0`)
+- this is why you can see a **zero-cost query** even when an answer is returned
+
 ![Query Flow](docs/images/query.png)
 
 ## Query Cache and Cost Saving
