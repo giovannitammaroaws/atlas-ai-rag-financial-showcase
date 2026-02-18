@@ -520,18 +520,15 @@ Terraform template highlights (most relevant):
 - `bedrock-runtime` Interface Endpoint for private embeddings path
 - `S3` Gateway Endpoint for private S3 routing
 
-Terraform template chart (static):
+Terraform architecture diagram (static):
 
-![Terraform templates overview](docs/images/terraform-templates-overview.svg)
+![Terraform architecture overview](docs/images/terraform-architecture.png)
 
 Terraform template split:
 - `modules/network`: VPC, subnets, IPv6 routing, Egress-Only IGW, VPC endpoints
 - `modules/app`: ECS/Fargate service, runtime configuration, app IAM wiring
 - `modules/data`: RDS PostgreSQL + pgvector and S3 document bucket
 - `modules/frontend`: CloudFront + S3 frontend delivery layer
-
-Detailed dependency graph (full Terraform output):
-- [Open full terraform graph](docs/images/terraform-graph.svg)
 
 What this means operationally:
 1. networking, compute, storage, and data services are provisioned with Terraform templates
