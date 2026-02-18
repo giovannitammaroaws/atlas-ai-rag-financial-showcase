@@ -32,25 +32,6 @@ Engineers and builders who want a real-world example of:
 - Focus: RAG on financial filings (10-Q style documents)
 - Objective: grounded answers with traceability, low hallucination risk, and cost visibility
 
-## Tech Stack
-
-| Layer | Technology | Purpose |
-|---|---|---|
-| UI | ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=0f172a) `React` | Interactive operator dashboard |
-| Frontend Build | ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) `Vite` | Fast local dev server and production builds |
-| Backend API | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) `FastAPI` | RAG orchestration, retrieval, and query APIs |
-| Relational + Vector Data | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white) `PostgreSQL` + ![pgvector](https://img.shields.io/badge/pgvector-Vector%20Extension-334155) | Store documents, chunks, metadata, and embeddings |
-| Embeddings | ![Amazon Bedrock](https://img.shields.io/badge/Amazon%20Bedrock-FF9900?logo=amazonaws&logoColor=white) `Bedrock Runtime` | Private embedding generation via VPC endpoint |
-| LLM Inference | ![Anthropic](https://img.shields.io/badge/Anthropic-LLM-111827) `Anthropic API` | Answer generation for user queries |
-| Object Storage | ![Amazon S3](https://img.shields.io/badge/Amazon%20S3-FF9900?logo=amazonaws&logoColor=white) `S3` | Source filing/document storage |
-| Compute | ![Amazon ECS](https://img.shields.io/badge/ECS%20Fargate-FF9900?logo=amazonaws&logoColor=white) `ECS Fargate` | Private backend runtime in VPC |
-| Ingress | ![ALB](https://img.shields.io/badge/Application%20Load%20Balancer-FF9900?logo=amazonaws&logoColor=white) `ALB` | Controlled API entry point |
-| Static Delivery | ![CloudFront](https://img.shields.io/badge/CloudFront-FF9900?logo=amazonaws&logoColor=white) `CloudFront` + ![S3](https://img.shields.io/badge/S3%20Frontend-FF9900?logo=amazonaws&logoColor=white) | Global frontend delivery and caching |
-| Secrets | ![Secrets Manager](https://img.shields.io/badge/Secrets%20Manager-FF9900?logo=amazonaws&logoColor=white) `Secrets Manager` | Runtime secret management |
-| Observability | ![CloudWatch](https://img.shields.io/badge/CloudWatch%20Logs-FF9900?logo=amazonaws&logoColor=white) `CloudWatch Logs` | Operational logging and diagnostics |
-| Infrastructure as Code | ![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white) `Terraform` | Repeatable infrastructure provisioning |
-| Networking | ![IPv6](https://img.shields.io/badge/IPv6-Egress--Only%20IGW-2563eb) `Egress-Only IGW` + ![VPC Endpoints](https://img.shields.io/badge/VPC%20Endpoints-6%20Interface%20%2B%201%20Gateway-1e293b) | Private-first traffic model without NAT Gateway |
-
 ## Navigation
 
 - [Manual View](#manual-view)
@@ -503,6 +484,25 @@ This is the practical runtime sequence for external service calls from backend s
 
 ![Selected Architecture - PostgreSQL and pgvector](docs/images/postgre_pgvector.png)
 
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| UI | ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=0f172a) `React` | Interactive operator dashboard |
+| Frontend Build | ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) `Vite` | Fast local dev server and production builds |
+| Backend API | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) `FastAPI` | RAG orchestration, retrieval, and query APIs |
+| Relational + Vector Data | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white) `PostgreSQL` + ![pgvector](https://img.shields.io/badge/pgvector-Vector%20Extension-334155) | Store documents, chunks, metadata, and embeddings |
+| Embeddings | ![Amazon Bedrock](https://img.shields.io/badge/Amazon%20Bedrock-FF9900?logo=amazonaws&logoColor=white) `Bedrock Runtime` | Private embedding generation via VPC endpoint |
+| LLM Inference | ![Anthropic](https://img.shields.io/badge/Anthropic-LLM-111827) `Anthropic API` | Answer generation for user queries |
+| Object Storage | ![Amazon S3](https://img.shields.io/badge/Amazon%20S3-FF9900?logo=amazonaws&logoColor=white) `S3` | Source filing/document storage |
+| Compute | ![Amazon ECS](https://img.shields.io/badge/ECS%20Fargate-FF9900?logo=amazonaws&logoColor=white) `ECS Fargate` | Private backend runtime in VPC |
+| Ingress | ![ALB](https://img.shields.io/badge/Application%20Load%20Balancer-FF9900?logo=amazonaws&logoColor=white) `ALB` | Controlled API entry point |
+| Static Delivery | ![CloudFront](https://img.shields.io/badge/CloudFront-FF9900?logo=amazonaws&logoColor=white) `CloudFront` + ![S3](https://img.shields.io/badge/S3%20Frontend-FF9900?logo=amazonaws&logoColor=white) | Global frontend delivery and caching |
+| Secrets | ![Secrets Manager](https://img.shields.io/badge/Secrets%20Manager-FF9900?logo=amazonaws&logoColor=white) `Secrets Manager` | Runtime secret management |
+| Observability | ![CloudWatch](https://img.shields.io/badge/CloudWatch%20Logs-FF9900?logo=amazonaws&logoColor=white) `CloudWatch Logs` | Operational logging and diagnostics |
+| Infrastructure as Code | ![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white) `Terraform` | Repeatable infrastructure provisioning |
+| Networking | ![IPv6](https://img.shields.io/badge/IPv6-Egress--Only%20IGW-2563eb) `Egress-Only IGW` + ![VPC Endpoints](https://img.shields.io/badge/VPC%20Endpoints-6%20Interface%20%2B%201%20Gateway-1e293b) | Private-first traffic model without NAT Gateway |
+
 ### Terraform Rollout (Final Delivery)
 
 ![Terraform IaC](https://img.shields.io/badge/Terraform-IaC-623CE4?logo=terraform&logoColor=white)
@@ -519,52 +519,15 @@ Terraform template highlights (most relevant):
 - `bedrock-runtime` Interface Endpoint for private embeddings path
 - `S3` Gateway Endpoint for private S3 routing
 
-Terraform high-level view (Mermaid):
+Terraform template chart (static):
 
-```mermaid
-flowchart TB
-  U[User Browser]
+![Terraform graph](docs/images/terraform-graph.svg)
 
-  subgraph EDGE[Edge Layer]
-    CF[CloudFront]
-    S3FE[S3 Frontend Bucket]
-  end
-
-  subgraph VPC[VPC - IPv6 enabled - Terraform managed]
-    ALB[ALB - public subnets - 2 AZ]
-    ECS[ECS Fargate - private subnets]
-    RDS[RDS PostgreSQL + pgvector]
-    S3DOC[S3 Documents]
-    EIGW[Egress-Only Internet Gateway]
-    NONAT[No NAT Gateway]
-
-    subgraph EP[VPC Endpoints - 7 total]
-      S3GW[S3 Gateway Endpoint]
-      ECRAPI[ECR API Interface]
-      ECRDKR[ECR DKR Interface]
-      LOGS[CloudWatch Logs Interface]
-      SM[Secrets Manager Interface]
-      STS[STS Interface]
-      BR[Bedrock Runtime Interface]
-    end
-  end
-
-  ANTH[Anthropic API - IPv6]
-
-  U --> CF --> S3FE
-  U --> ALB --> ECS
-  ECS --> RDS
-  ECS --> S3DOC
-  ECS --> S3GW
-  ECS --> ECRAPI
-  ECS --> ECRDKR
-  ECS --> LOGS
-  ECS --> SM
-  ECS --> STS
-  ECS --> BR
-  ECS --> EIGW --> ANTH
-  NONAT -. cost optimization .-> ECS
-```
+Terraform template split:
+- `modules/network`: VPC, subnets, IPv6 routing, Egress-Only IGW, VPC endpoints
+- `modules/app`: ECS/Fargate service, runtime configuration, app IAM wiring
+- `modules/data`: RDS PostgreSQL + pgvector and S3 document bucket
+- `modules/frontend`: CloudFront + S3 frontend delivery layer
 
 What this means operationally:
 1. networking, compute, storage, and data services are provisioned with Terraform templates
