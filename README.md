@@ -97,6 +97,13 @@ Traceability example (TCL):
 4. source filing PDF (single HTTP link): [Apple FY26 Q1 Consolidated Financial Statements](https://www.apple.com/newsroom/pdfs/fy2026-q1/FY26_Q1_Consolidated_Financial_Statements.pdf).
 5. the value is read from the balance sheet line `Total current liabilities`.
 
+### PDF Extract Example
+
+Total current liabilities is shown through an extracted snippet from a source filing PDF.  
+It demonstrates that the query answer can be traced to original document evidence.
+
+![Total Current Liabilities Extract](docs/images/total_current_liabilities.png)
+
 ![Query Flow](docs/images/query.png)
 
 ## Query Cache and Cost Saving
@@ -165,15 +172,6 @@ What it highlights:
 - fast review panel for portfolio-style questions
 
 ![Earnings Signals](docs/images/earnings.png)
-
-### PDF Extract Example
-
-Total current liabilities is shown through an extracted snippet from a source filing PDF.  
-It demonstrates that values can be traced back to original document evidence.
-
-![Total Current Liabilities Extract](docs/images/total_current_liabilities.png)
-
-This extract is shown as evidence from an original public filing document used in the showcase.
 
 ## Cost and Usage
 
