@@ -499,6 +499,7 @@ This is the practical runtime sequence for external service calls from backend s
 | Ingress | ![ALB](https://img.shields.io/badge/Application%20Load%20Balancer-FF9900?logo=amazonaws&logoColor=white) `ALB` | Controlled API entry point |
 | Static Delivery | ![CloudFront](https://img.shields.io/badge/CloudFront-FF9900?logo=amazonaws&logoColor=white) `CloudFront` + ![S3](https://img.shields.io/badge/S3%20Frontend-FF9900?logo=amazonaws&logoColor=white) | Global frontend delivery and caching |
 | Secrets | ![Secrets Manager](https://img.shields.io/badge/Secrets%20Manager-FF9900?logo=amazonaws&logoColor=white) `Secrets Manager` | Runtime secret management |
+| Identity / Credentials | ![AWS STS](https://img.shields.io/badge/AWS%20STS-FF9900?logo=amazonaws&logoColor=white) `STS` | Issues temporary IAM credentials for ECS task role and supports private auth flow via STS endpoint |
 | Observability | ![CloudWatch](https://img.shields.io/badge/CloudWatch%20Logs-FF9900?logo=amazonaws&logoColor=white) `CloudWatch Logs` | Operational logging and diagnostics |
 | Infrastructure as Code | ![Terraform](https://img.shields.io/badge/Terraform-623CE4?logo=terraform&logoColor=white) `Terraform` | Repeatable infrastructure provisioning |
 | Networking | ![IPv6](https://img.shields.io/badge/IPv6-Egress--Only%20IGW-2563eb) `Egress-Only IGW` + ![VPC Endpoints](https://img.shields.io/badge/VPC%20Endpoints-6%20Interface%20%2B%201%20Gateway-1e293b) | Private-first traffic model without NAT Gateway |
