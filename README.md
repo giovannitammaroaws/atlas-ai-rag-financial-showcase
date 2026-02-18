@@ -78,13 +78,17 @@ This is the complete operator manual screen of the showcase, with all key sectio
 ## Query Flow
 
 This is the main entry point of the system.  
-The user submits a question, the backend retrieves relevant chunks from the vector database, and the model returns a grounded answer with evidence.
+The user first ingests documents, then submits a question, and the backend returns a grounded answer with evidence from retrieved chunks.
 
 Flow:
-1. user writes a question
-2. backend identifies intent/ticker and retrieves top chunks
-3. LLM generates the answer from retrieved context
-4. UI shows answer and source snippets
+1. user ingests data (upload documents -> chunking -> embeddings in pgvector)
+2. user writes the query in the Query panel (step 2 in the UI flow)
+3. system returns the answer and attached evidence chunks
+4. by default, retrieval is `top-k = 10`, so the response is grounded on **10 chunks**
+
+Practical note:
+- `top_k` default is set to `10` in backend settings, and query runs track retrieval depth.
+- at the top of the dashboard, you can also see query cost signals (token usage and estimated cost).
 
 ![Query Flow](docs/images/query.png)
 
