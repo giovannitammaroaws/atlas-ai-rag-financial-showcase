@@ -19,6 +19,6 @@ It is used to show that values in the system can be traced back to original docu
 ![Total Current Liabilities Extract](images/total_current_liabilities.png)
 
 Source PDF:
-- [Open AAPL source filing](10K_PDF/aapl-20251227.pdf)
+- [Open AAPL source filing](10Q_PDF/aapl-20251227.pdf)
 
 [Back to README](../README.md)

@@ -28,7 +28,7 @@ Engineers and builders who want a real-world example of:
 ## Project Details
 
 - Stack: FastAPI, React, PostgreSQL + pgvector, Anthropic/OpenAI/Ollama
-- Focus: RAG on financial filings (10-Q/10-K style documents)
+- Focus: RAG on financial filings (10-Q style documents)
 - Objective: grounded answers with traceability, low hallucination risk, and cost visibility
 
 ## Navigation
@@ -94,7 +94,7 @@ Traceability example (TCL):
 1. user asks for **Total Current Liabilities (TCL)** after ingestion.
 2. system returns the value **162,367** (in millions).
 3. evidence snippet shown in the UI: [Total Current Liabilities Extract](docs/images/total_current_liabilities.png).
-4. source filing PDF (repo file): [aapl-20251227.pdf](docs/10K_PDF/aapl-20251227.pdf).
+4. source filing PDF (repo file): [aapl-20251227.pdf](docs/10Q_PDF/aapl-20251227.pdf).
 5. the value is read from the balance sheet line `Total current liabilities`.
 
 ### PDF Extract Example
