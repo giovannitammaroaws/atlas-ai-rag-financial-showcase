@@ -490,6 +490,15 @@ This is the practical runtime sequence for external service calls from backend s
 
 Final delivery is **Terraform-driven**, not manual click-by-click provisioning.
 
+Terraform template highlights (most relevant):
+- `Egress-Only Internet Gateway` for IPv6 outbound traffic from private subnets
+- **No NAT Gateway** in the baseline (cost-saving design choice)
+- ECS Fargate tasks in private subnets (`assign_public_ip=false`)
+- ALB as controlled ingress, spread across 2 AZ
+- VPC endpoint baseline: **7 total** (`6 Interface + 1 Gateway`)
+- `bedrock-runtime` Interface Endpoint for private embeddings path
+- `S3` Gateway Endpoint for private S3 routing
+
 What this means operationally:
 1. networking, compute, storage, and data services are provisioned with Terraform templates
 2. environment changes are applied through versioned IaC updates
