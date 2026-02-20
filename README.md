@@ -225,18 +225,24 @@ Trade-off dimensions:
 
 ## Multi-Layer Protection (Cost and Reliability)
 
-This project applies 8 protection layers to reduce runaway behavior, control spend, and improve reliability.
+This project applies 10 protection layers to reduce runaway behavior, control spend, and improve reliability.
 
 | # | Layer | Protection | Prevents |
 |---|-------|------------|----------|
 | 1 | Max Retries | Hard retry limit | Infinite retry loops |
 | 2 | Circuit Breaker | Stop after repeated failures | Cascading failures |
-| 3 | Cost Budget | Daily and hourly budget controls | Budget drain |
+| 3 | Cost Budget | Daily and hourly budget controls with backend hard-stop (`429`) | Budget drain |
 | 4 | Timeout | Maximum wait between retries | Hanging requests |
 | 5 | Request Deduplication | Reuse identical requests when possible | Duplicate queries and duplicate cost |
 | 6 | Loading State Control | Block repeated actions while processing | Double-click execution |
 | 7 | Client Rate Limit | Sliding-window request cap | Spam bursts |
 | 8 | Abort Control | Cancel superseded or obsolete runs | Orphan requests |
+| 9 | Zero-Cost Mode | Retrieval-only answer path, no external LLM call | Any incremental provider spend |
+| 10 | Finance-Only Domain Guard | Reject out-of-domain prompts before retrieval/LLM (`422`) | Off-topic usage (adult/religion/general chat) |
+
+Operational toggles used in this showcase:
+- `ZERO_COST_MODE=true` forces retrieval-only responses (provider cost = 0).
+- `FINANCE_ONLY_MODE=true` restricts query scope to finance topics and tickers.
 
 ## Selected Architecture
 
