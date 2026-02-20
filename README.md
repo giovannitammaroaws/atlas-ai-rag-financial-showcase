@@ -216,6 +216,20 @@ Trade-off dimensions:
 
 ![Cost Trade-offs](docs/images/cost_tradeoff.png)
 
+## Finance-Only Domain Guard
+
+The platform enforces a finance-only domain policy. Queries outside the financial domain are rejected before retrieval or any LLM call is made.
+
+Examples of rejected queries:
+
+**"How many religions are there in the world?"**
+
+![Guardrail - Religion](docs/images/guardrail_1.png)
+
+**"What is the recipe for apple pie?"**
+
+![Guardrail - Apple Pie](docs/images/guardrail_2.png)
+
 ## Multi-Layer Protection (Cost and Reliability)
 
 This project applies 10 protection layers to reduce runaway behavior, control spend, and improve reliability.
