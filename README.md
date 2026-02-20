@@ -12,13 +12,6 @@
   <img alt="Security" src="https://img.shields.io/badge/Security-Private%20by%20Design-1e293b?style=for-the-badge" />
 </p>
 
-<p align="center">
-  <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-Rate--Limited%20Available%20On%20Request-22c55e?style=for-the-badge" />
-  <a href="https://www.linkedin.com/">
-    <img alt="LinkedIn Giovanni Tammaro" src="https://img.shields.io/badge/LinkedIn-Giovanni%20Tammaro-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
-  </a>
-</p>
-
 This tutorial walks through a practical, production-oriented financial RAG system.  
 The focus is learning by building: document ingestion, chunking, embeddings, retrieval, LLM answering, guardrails, and cost control.
 
@@ -580,5 +573,14 @@ Practical conclusion:
 
 ## Data Sources
 
-The showcase uses public financial filing documents that can be downloaded freely online.  
+The showcase uses public financial filing documents that can be downloaded freely online.
 Those documents are ingested, chunked, embedded, and used as evidence for answers shown in this portfolio.
+
+## Contact
+
+<p align="center">
+  <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-Rate--Limited%20Available%20On%20Request-22c55e?style=for-the-badge" />
+  <a href="https://linkedin.com/in/pubtammarogiovanni">
+    <img alt="LinkedIn Giovanni Tammaro" src="https://img.shields.io/badge/LinkedIn-Giovanni%20Tammaro-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+</p>
