@@ -48,6 +48,7 @@ Engineers and builders who want a real-world example of:
   - [Cost and Usage](#cost-and-usage)
   - [Audit](#audit)
   - [Cost Trade-offs](#cost-trade-offs)
+  - [Finance-Only Domain Guard](#finance-only-domain-guard)
   - [Multi-Layer Protection](#multi-layer-protection-cost-and-reliability)
 </details>
 
