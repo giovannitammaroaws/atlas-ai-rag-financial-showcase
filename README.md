@@ -35,6 +35,7 @@ Engineers and builders who want a real-world example of:
 ## Navigation
 
 - [Manual View](#manual-view)
+- [Contact](#contact)
 
 <details open>
   <summary><strong>User Journey</strong></summary>
